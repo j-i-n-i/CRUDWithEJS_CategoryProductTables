@@ -1,0 +1,106 @@
+<%- include('partials/header') %>
+<h2>Products</h2>
+
+<!-- Add Product Form -->
+<form action="/products" method="POST" enctype="multipart/form-data">
+  <select name="category" required>
+    <% categories.forEach(category => { %>
+    <option value="<%= category._id %>"><%= category.name %></option>
+    <% }) %>
+  </select>
+  <input type="text" name="name" placeholder="Product Name" required>
+  <input type="number" name="price" placeholder="Price" required>
+  <input type="number" name="quantity" placeholder="Quantity" required>
+  <input type="file" name="images" multiple>
+  <button type="submit">Add Product</button>
+</form>
+
+<!-- Products Table -->
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Price</th>
+    <th>Quantity</th>
+    <th>Images</th>
+    <th>Actions</th>
+  </tr>
+  <% products.forEach(product => { %>
+  <tr>
+    <td><%= product.name %></td>
+    <td><%= product.price %></td>
+    <td><%= product.quantity %></td>
+    <td>
+      <% product.images.forEach(image => { %>
+      <img src="/uploads/<%= image %>" alt="<%= product.name %>" width="100">
+      <% }) %>
+    </td>
+    <td>
+      <!-- Update Button -->
+      <button onclick="openUpdateForm('<%= product._id %>', '<%= product.name %>', '<%= product.price %>', '<%= product.quantity %>', '<%= JSON.stringify(product.images) %>')">Update</button>
+      <!-- Delete Button -->
+      <form action="/products/<%= product._id %>?_method=DELETE" method="POST" style="display:inline;" onsubmit="return confirmDelete()">
+        <button type="submit">Delete</button>
+      </form>
+    </td>
+  </tr>
+  <% }) %>
+</table>
+
+<!-- Update Form Popup -->
+<div id="updateForm" class="modal">
+  <div class="modal-content">
+    <span class="close" onclick="closeUpdateForm()">&times;</span>
+    <h2>Update Product</h2>
+    <form id="updateProductForm" action="/products/update" method="POST" enctype="multipart/form-data">
+      <input type="hidden" name="id" id="productId">
+      <select name="category" required>
+        <% categories.forEach(category => { %>
+        <option value="<%= category._id %>"><%= category.name %></option>
+        <% }) %>      <input type="text" name="name" id="productName" placeholder="Product Name" required>
+      <input type="number" name="price" id="productPrice" placeholder="Price" required>
+      <input type="number" name="quantity" id="productQuantity" placeholder="Quantity" required>
+      <input type="file" name="images" multiple>
+      <button type="submit">Update Product</button>
+    </form>
+  </div>
+</div>
+
+<!-- JavaScript to Handle Modal -->
+<script>
+  function openUpdateForm(id, name, price, quantity, images) {
+    document.getElementById('productId').value = id;
+    document.getElementById('productName').value = name;
+    document.getElementById('productPrice').value = price;
+    document.getElementById('productQuantity').value = quantity;
+    
+    // Optionally, populate category dropdown
+    fetch('/categories') // Assuming you have a route to get categories
+      .then(response => response.json())
+      .then(categories => {
+        const categorySelect = document.getElementById('productCategory');
+        categorySelect.innerHTML = ''; // Clear existing options
+        categories.forEach(category => {
+          const option = document.createElement('option');
+          option.value = category._id;
+          option.text = category.name;
+          categorySelect.add(option);
+        });
+      });
+    
+    document.getElementById('updateForm').style.display = 'block';
+  }
+
+  function closeUpdateForm() {
+    document.getElementById('updateForm').style.display = 'none';
+  }
+
+  function confirmDelete() {
+    return confirm("Are you sure you want to delete this category?");
+  }
+  
+  window.onclick = function(event) {
+    if (event.target == document.getElementById('updateForm')) {
+      closeUpdateForm();
+    }
+  }
+</script>
