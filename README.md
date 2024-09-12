@@ -8,6 +8,5 @@ CRUD modules for Category and Products collections, built with Express, Mongoose
 ![Screenshot 2024-09-12 095555](https://github.com/user-attachments/assets/e64fdf91-ec99-4777-8144-ce7fc67fca3f)
 ![Screenshot 2024-09-12 100308](https://github.com/user-attachments/assets/2af966ca-19c9-4c20-90dc-b9ca552afe8d)
 ![Screenshot 2024-09-12 100333](https://github.com/user-attachments/assets/cd25222c-bf84-443f-9c4b-041016fd4e16)
-![Screenshot 2024-09-12 100403](https://github.com/user-attachments/assets/2874aa6b-fc06-40d9-b75b-7b375563f680)
 ![Screenshot 2024-09-12 100416](https://github.com/user-attachments/assets/b64c96c0-67df-4851-a5ac-23373fbfd1e9)
 ![Screenshot 2024-09-12 100734](https://github.com/user-attachments/assets/ec181c61-a8b1-4d49-a5fd-9bf0da58f6ab)
